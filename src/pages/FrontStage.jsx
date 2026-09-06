@@ -49,19 +49,8 @@ export default function FrontStage() {
 
   return (
     <div className="spray-texture" style={{ height: '100vh', overflow: 'hidden', background: 'var(--ink)', display: 'flex', flexDirection: 'column' }}>
-      <header
-        style={{
-          padding: '1.5rem 1rem 1rem',
-          borderBottom: '4px solid var(--spray)',
-          display: 'grid',
-          gridTemplateColumns: '84px 1fr 84px',
-          alignItems: 'center',
-          gap: '1rem',
-        }}
-      >
-        <div />
+      <header style={{ padding: '1.5rem 1rem 1rem', borderBottom: '4px solid var(--spray)' }}>
         <BubbleTitle text={TITLE} />
-        <QRCodeBlock size={64} />
       </header>
 
       <main
@@ -98,6 +87,10 @@ export default function FrontStage() {
               <BubbleTitle text={questionText} size="clamp(2rem, 6vw, 4.5rem)" />
             </div>
           )}
+
+          <div style={{ marginTop: 'auto' }}>
+            <QRCodeBlock />
+          </div>
         </section>
 
         <section
