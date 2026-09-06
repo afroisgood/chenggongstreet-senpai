@@ -51,7 +51,7 @@ export default function WordCloud({ items, randomize = true }) {
     sharedSizePx = idealRemForLength(Array.from(items[0].text).length) * rootPx
     if (availableWidth > 0) {
       const tightestMaxPx = Math.min(
-        ...items.map((it) => (availableWidth * 0.94) / Array.from(it.text).length),
+        ...items.map((it) => (availableWidth * 0.99) / Array.from(it.text).length),
       )
       sharedSizePx = Math.min(sharedSizePx, tightestMaxPx)
     }
@@ -100,6 +100,7 @@ export default function WordCloud({ items, randomize = true }) {
               color,
               transform: `rotate(${rotate.toFixed(1)}deg)`,
               WebkitTextStroke: color === 'var(--spray)' ? '1px #000' : 'none',
+              paintOrder: 'stroke fill',
               textShadow: '2px 2px 0 rgba(0,0,0,0.7)',
               whiteSpace: 'nowrap',
               opacity: randomize ? 0.6 + r * 0.4 : 1,
