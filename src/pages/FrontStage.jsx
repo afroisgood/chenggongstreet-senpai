@@ -45,7 +45,7 @@ export default function FrontStage() {
   const questionText = stage.question
 
   return (
-    <div className="spray-texture" style={{ minHeight: '100vh', background: 'var(--ink)', display: 'flex', flexDirection: 'column' }}>
+    <div className="spray-texture" style={{ height: '100vh', overflow: 'hidden', background: 'var(--ink)', display: 'flex', flexDirection: 'column' }}>
       <header style={{ padding: '1.5rem 1rem 1rem', borderBottom: '4px solid var(--spray)' }}>
         <BubbleTitle text={TITLE} />
       </header>
@@ -53,13 +53,15 @@ export default function FrontStage() {
       <main
         style={{
           flex: 1,
+          minHeight: 0,
           display: 'grid',
           gridTemplateColumns: 'minmax(0,1.1fr) minmax(0,0.9fr)',
+          gridTemplateRows: 'minmax(0,1fr)',
           gap: '1.5rem',
           padding: '1.5rem',
         }}
       >
-        <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem', minWidth: 0 }}>
+        <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem', minWidth: 0, minHeight: 0, overflow: 'hidden' }}>
           {stage.type === 'vote' ? (
             <>
               <div className="tag-yellow" style={{ display: 'inline-block', alignSelf: 'flex-start' }}>
@@ -93,6 +95,7 @@ export default function FrontStage() {
             display: 'flex',
             flexDirection: 'column',
             minWidth: 0,
+            minHeight: 0,
             background: 'rgba(255,255,255,0.04)',
             border: '2px solid var(--spray)',
             borderRadius: 20,
