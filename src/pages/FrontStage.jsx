@@ -16,8 +16,13 @@ export default function FrontStage() {
   const [votes, setVotes] = useState([])
 
   useEffect(() => subscribeConfig(setConfig), [])
-  // 留言區是全站共用的單一留言牆，不隨階段切換而分開，所以只訂閱一次
-  useEffect(() => subscribeAllComments(setComments), [])
+  // 留言區是全站共用的單一留言牆，不隨階段切換而分開，所以只訂閱一次；
+  // 但「妳現在最重視的東西是甚麼？」文字雲階段的留言是針對該題的專屬回答，
+  // 不應該混進其他階段的一般留言牆
+  useEffect(
+    () => subscribeAllComments((all) => setComments(all.filter((c) => c.stageId !== 'wordcloud'))),
+    [],
+  )
 
   const stage = getStage(config.currentStageId) || STAGES[0]
 
