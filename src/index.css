@@ -21,7 +21,7 @@ body {
   margin: 0;
   background: var(--ink);
   color: var(--paper);
-  font-family: 'ZCOOL KuaiLe', 'Noto Sans TC', system-ui, sans-serif;
+  font-family: 'ZCOOL QingKe HuangYou', 'Noto Sans TC', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -54,7 +54,7 @@ a {
 /* 泡泡糖甜心：果凍膠囊標籤 */
 .tag-yellow,
 .tag-black {
-  font-family: 'ZCOOL KuaiLe', 'Noto Sans TC', sans-serif;
+  font-family: 'ZCOOL QingKe HuangYou', 'Noto Sans TC', sans-serif;
   padding: 7px 16px;
   border-radius: 999px;
   border: 2px solid var(--ink);
@@ -75,7 +75,7 @@ a {
 }
 
 .stencil-btn {
-  font-family: 'ZCOOL KuaiLe', 'Noto Sans TC', sans-serif;
+  font-family: 'ZCOOL QingKe HuangYou', 'Noto Sans TC', sans-serif;
   border: 2px solid var(--ink);
   border-radius: 999px;
   background: linear-gradient(180deg, #FFF3A3 0%, var(--spray) 55%, #E6CE00 100%);

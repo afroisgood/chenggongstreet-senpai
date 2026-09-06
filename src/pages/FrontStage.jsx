@@ -36,7 +36,7 @@ export default function FrontStage() {
     return (
       <div className="spray-texture" style={{ height: '100vh', background: 'var(--ink)', display: 'flex', flexDirection: 'column' }}>
         <div style={{ padding: '1.5rem 1rem 0' }}>
-          <BubbleTitle text={stage.question} size="clamp(1.6rem, 5vw, 3.5rem)" font="'ZCOOL KuaiLe', 'Noto Sans TC', sans-serif" />
+          <BubbleTitle text={stage.question} size="clamp(1.6rem, 5vw, 3.5rem)" />
         </div>
         <div style={{ flex: 1, minHeight: 0 }}>
           <WordCloud items={wordcloudComments} />
@@ -48,13 +48,20 @@ export default function FrontStage() {
   const questionText = stage.question
 
   return (
-    <div className="spray-texture" style={{ height: '100vh', overflow: 'hidden', background: 'var(--ink)', display: 'flex', flexDirection: 'column', position: 'relative' }}>
-      <div style={{ position: 'absolute', top: '1rem', right: '1rem', zIndex: 10 }}>
-        <QRCodeBlock size={84} />
-      </div>
-
-      <header style={{ padding: '1.5rem 1rem 1rem', borderBottom: '4px solid var(--spray)' }}>
+    <div className="spray-texture" style={{ height: '100vh', overflow: 'hidden', background: 'var(--ink)', display: 'flex', flexDirection: 'column' }}>
+      <header
+        style={{
+          padding: '1.5rem 1rem 1rem',
+          borderBottom: '4px solid var(--spray)',
+          display: 'grid',
+          gridTemplateColumns: '84px 1fr 84px',
+          alignItems: 'center',
+          gap: '1rem',
+        }}
+      >
+        <div />
         <BubbleTitle text={TITLE} />
+        <QRCodeBlock size={64} />
       </header>
 
       <main
@@ -88,7 +95,7 @@ export default function FrontStage() {
             </div>
           ) : (
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-              <BubbleTitle text={questionText} size="clamp(2rem, 6vw, 4.5rem)" font="'ZCOOL KuaiLe', 'Noto Sans TC', sans-serif" />
+              <BubbleTitle text={questionText} size="clamp(2rem, 6vw, 4.5rem)" />
             </div>
           )}
         </section>
