@@ -8,6 +8,7 @@ import {
   subscribeVotes,
   subscribeAllComments,
   deleteComment,
+  resetVotes,
 } from '../lib/data'
 
 const ADMIN_PASSWORD = 'sean2026'
@@ -80,6 +81,32 @@ function MenuQuestionEditor({ current }) {
         更新題目
       </button>
     </div>
+  )
+}
+
+function ResetVotesButton({ stage }) {
+  const [resetting, setResetting] = useState(false)
+
+  const handleClick = async () => {
+    if (!window.confirm(`確定要清除「${stage.name}」的所有投票資料嗎？此動作無法復原。`)) return
+    setResetting(true)
+    try {
+      await resetVotes(stage.id)
+    } catch (err) {
+      alert(`重置失敗：${err.message}`)
+    } finally {
+      setResetting(false)
+    }
+  }
+
+  return (
+    <button
+      onClick={handleClick}
+      disabled={resetting}
+      style={{ background: '#c0392b', color: '#fff', border: 'none', padding: '8px 14px', cursor: 'pointer', fontSize: 13 }}
+    >
+      {resetting ? '清除中…' : '重置本題投票'}
+    </button>
   )
 }
 
@@ -166,9 +193,12 @@ export default function Admin() {
 
       {stage?.type === 'vote' && (
         <section>
-          <h2 style={{ fontSize: 14, color: '#aaa', textTransform: 'uppercase', letterSpacing: 1 }}>
-            即時投票結果：{stage.name}
-          </h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
+            <h2 style={{ fontSize: 14, color: '#aaa', textTransform: 'uppercase', letterSpacing: 1, margin: 0 }}>
+              即時投票結果：{stage.name}
+            </h2>
+            <ResetVotesButton stage={stage} />
+          </div>
           <VoteBarChart stage={stage} votes={votes} />
         </section>
       )}

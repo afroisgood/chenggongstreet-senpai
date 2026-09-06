@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParticipant } from '../context/ParticipantContext'
 import { getStage, STAGES } from '../data/stages'
-import { subscribeConfig, postComment, submitVote } from '../lib/data'
+import { subscribeConfig, postComment, submitVote, subscribeMyVote } from '../lib/data'
 
 function NicknameGate({ onSubmit }) {
   const [value, setValue] = useState('')
@@ -38,9 +38,10 @@ function NicknameGate({ onSubmit }) {
 }
 
 export default function Interactive() {
-  const { nickname, setNickname, participantId, votedStages, markVoted } = useParticipant()
+  const { nickname, setNickname, participantId } = useParticipant()
   const [config, setConfig] = useState({ currentStageId: 'icebreak', menuQuestionText: '' })
   const [selected, setSelected] = useState([])
+  const [myVote, setMyVote] = useState(null)
   const [commentText, setCommentText] = useState('')
   const [status, setStatus] = useState('')
 
@@ -49,16 +50,30 @@ export default function Interactive() {
   const stage = getStage(config.currentStageId) || STAGES[0]
 
   useEffect(() => {
-    setSelected([])
     setStatus('')
-  }, [stage.id])
+    if (stage.type !== 'vote') {
+      setMyVote(null)
+      return
+    }
+    // Firestore 的 onSnapshot 常會先給一次本地快取、再給一次伺服器確認，即使資料沒變也會
+    // 觸發兩次。只有在票的內容「真的變了」（含首次載入、或後台重置投票）才覆蓋 selected，
+    // 避免把使用者正在修改、還沒送出的選擇蓋掉。
+    let previousOptionsKey = undefined
+    return subscribeMyVote(stage.id, participantId, (vote) => {
+      const optionsKey = JSON.stringify(vote?.options || null)
+      if (optionsKey !== previousOptionsKey) {
+        setSelected(vote?.options || [])
+      }
+      previousOptionsKey = optionsKey
+      setMyVote(vote)
+    })
+  }, [stage.id, stage.type, participantId])
 
   if (!nickname) {
     return <NicknameGate onSubmit={setNickname} />
   }
 
   const questionText = stage.id === 'menu' ? config.menuQuestionText || '主持人準備中…' : stage.question
-  const hasVoted = !!votedStages[stage.id]
 
   const toggleOption = (optId) => {
     if (stage.multiSelect) {
@@ -71,8 +86,7 @@ export default function Interactive() {
   const handleVoteSubmit = async () => {
     if (selected.length === 0) return
     await submitVote({ stageId: stage.id, participantId, nickname, options: selected })
-    markVoted(stage.id)
-    setStatus('已送出你的投票！')
+    setStatus(myVote ? '已更新你的投票！' : '已送出你的投票！')
   }
 
   const handleCommentSubmit = async () => {
@@ -92,6 +106,11 @@ export default function Interactive() {
       </header>
 
       <h2 style={{ margin: 0, fontSize: '1.3rem', lineHeight: 1.5 }}>{questionText}</h2>
+      {stage.type === 'vote' && stage.multiSelect && (
+        <p style={{ margin: '-0.8rem 0 0', color: 'var(--spray)', fontSize: 13, fontFamily: "'Archivo Black', sans-serif" }}>
+          （可複選，投票後仍可修改）
+        </p>
+      )}
 
       {stage.type === 'vote' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -99,15 +118,14 @@ export default function Interactive() {
             <button
               key={opt.id}
               className={`stencil-btn ${selected.includes(opt.id) ? 'selected' : ''}`}
-              disabled={hasVoted}
               onClick={() => toggleOption(opt.id)}
               style={{ textAlign: 'left' }}
             >
               {opt.id}. {opt.label}
             </button>
           ))}
-          <button className="stencil-btn" disabled={hasVoted || selected.length === 0} onClick={handleVoteSubmit}>
-            {hasVoted ? '已投票' : stage.multiSelect ? '送出（可複選）' : '送出'}
+          <button className="stencil-btn" disabled={selected.length === 0} onClick={handleVoteSubmit}>
+            {myVote ? '更新投票' : stage.multiSelect ? '送出（可複選）' : '送出'}
           </button>
         </div>
       )}

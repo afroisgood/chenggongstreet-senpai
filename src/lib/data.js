@@ -8,6 +8,8 @@ import {
   query,
   where,
   serverTimestamp,
+  getDocs,
+  writeBatch,
 } from 'firebase/firestore'
 import { db } from './firebase'
 
@@ -82,4 +84,20 @@ export function submitVote({ stageId, participantId, nickname, options }) {
     options,
     createdAt: serverTimestamp(),
   })
+}
+
+// 訂閱自己在某階段的投票紀錄，讓互動頁可以預先勾選、並在被後台重置投票後即時解鎖
+export function subscribeMyVote(stageId, participantId, callback) {
+  const voteId = `${stageId}__${participantId}`
+  return onSnapshot(doc(db, 'votes', voteId), (snap) => {
+    callback(snap.exists() ? snap.data() : null)
+  })
+}
+
+export async function resetVotes(stageId) {
+  const q = query(collection(db, 'votes'), where('stageId', '==', stageId))
+  const snap = await getDocs(q)
+  const batch = writeBatch(db)
+  snap.docs.forEach((d) => batch.delete(d.ref))
+  await batch.commit()
 }

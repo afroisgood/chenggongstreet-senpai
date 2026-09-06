@@ -14,31 +14,14 @@ function getOrCreateParticipantId() {
 export function ParticipantProvider({ children }) {
   const [nickname, setNicknameState] = useState(() => localStorage.getItem('nickname') || '')
   const [participantId] = useState(getOrCreateParticipantId)
-  const [votedStages, setVotedStages] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem('votedStages') || '{}')
-    } catch {
-      return {}
-    }
-  })
 
   const setNickname = useCallback((name) => {
     localStorage.setItem('nickname', name)
     setNicknameState(name)
   }, [])
 
-  const markVoted = useCallback((stageId) => {
-    setVotedStages((prev) => {
-      const next = { ...prev, [stageId]: true }
-      localStorage.setItem('votedStages', JSON.stringify(next))
-      return next
-    })
-  }, [])
-
   return (
-    <ParticipantContext.Provider
-      value={{ nickname, setNickname, participantId, votedStages, markVoted }}
-    >
+    <ParticipantContext.Provider value={{ nickname, setNickname, participantId }}>
       {children}
     </ParticipantContext.Provider>
   )

@@ -60,12 +60,24 @@ export default function FrontStage() {
         }}
       >
         <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem', minWidth: 0 }}>
-          <div className="tag-yellow" style={{ display: 'inline-block', padding: '6px 16px', fontFamily: "'Archivo Black', sans-serif", fontSize: 14, alignSelf: 'flex-start', transform: 'skew(-6deg)' }}>
-            目前階段
-          </div>
-          <h2 style={{ margin: 0, fontSize: 'clamp(1.2rem, 2.4vw, 2rem)', color: '#fff' }}>{questionText}</h2>
-
-          {stage.type === 'vote' && <VoteBarChart stage={stage} votes={votes} />}
+          {stage.type === 'vote' ? (
+            <>
+              <div className="tag-yellow" style={{ display: 'inline-block', padding: '6px 16px', fontFamily: "'Archivo Black', sans-serif", fontSize: 14, alignSelf: 'flex-start', transform: 'skew(-6deg)' }}>
+                目前階段
+              </div>
+              <h2 style={{ margin: 0, fontSize: 'clamp(1.2rem, 2.4vw, 2rem)', color: '#fff' }}>{questionText}</h2>
+              {stage.multiSelect && (
+                <p style={{ margin: '-0.6rem 0 0', color: 'var(--spray)', fontSize: 13, fontFamily: "'Archivo Black', sans-serif" }}>
+                  （可複選）
+                </p>
+              )}
+              <VoteBarChart stage={stage} votes={votes} />
+            </>
+          ) : (
+            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+              <GraffitiTitle text={questionText} size="clamp(2rem, 6vw, 4.5rem)" />
+            </div>
+          )}
 
           <div style={{ marginTop: 'auto' }}>
             <QRCodeBlock />

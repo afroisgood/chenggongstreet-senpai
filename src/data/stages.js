@@ -3,15 +3,15 @@
 export const STAGES = [
   {
     id: 'icebreak',
-    name: '開頭！破冰',
+    name: '破冰時間！',
     type: 'comment',
-    question: '開頭！破冰',
+    question: '破冰時間！',
   },
   {
     id: 'vote1',
     name: '投票一',
     type: 'vote',
-    multiSelect: false,
+    multiSelect: true,
     question: '看到今天這個標題，你心裡第一個 OS 是？',
     options: [
       { id: 'A', label: '成功街到底在哪裡？' },
@@ -25,7 +25,7 @@ export const STAGES = [
     name: '投票二',
     type: 'vote',
     multiSelect: true,
-    question: '（複選）你曾經去過北濱板場玩過板嗎？',
+    question: '你曾經去過北濱板場玩過板嗎？',
     options: [
       { id: 'A', label: '想玩但沒有滑板' },
       { id: 'B', label: '滑板仔都太酷了，沒包手不敢去' },
@@ -40,7 +40,7 @@ export const STAGES = [
     id: 'vote3',
     name: '投票三',
     type: 'vote',
-    multiSelect: false,
+    multiSelect: true,
     question: '在做自己喜歡的事情時，如果要把自己弄得髒兮兮或容易受傷，妳的接受度有多高？',
     options: [
       { id: 'A', label: '完全不行！漂亮跟乾淨是我的底線' },
@@ -54,7 +54,7 @@ export const STAGES = [
     id: 'vote4',
     name: '投票四',
     type: 'vote',
-    multiSelect: false,
+    multiSelect: true,
     question: '還記得大地震過後一切的變化嗎？',
     options: [
       { id: 'A', label: '地震那時候以為我要死了' },

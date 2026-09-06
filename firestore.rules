@@ -27,7 +27,7 @@ service cloud.firestore {
         && request.resource.data.participantId is string
         && request.resource.data.options is list
         && voteId == request.resource.data.stageId + '__' + request.resource.data.participantId;
-      allow delete: if false;
+      allow delete: if true; // 後台「重置投票」用；無帳號系統，任何持有連結者理論上都能呼叫
     }
   }
 }
