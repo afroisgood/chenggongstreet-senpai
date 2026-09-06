@@ -1,4 +1,4 @@
-export default function VoteBarChart({ stage, votes }) {
+export default function VoteBarChart({ stage, votes, optionFontSize = 18 }) {
   const counts = Object.fromEntries(stage.options.map((o) => [o.id, 0]))
   votes.forEach((v) => {
     ;(v.options || []).forEach((optId) => {
@@ -18,7 +18,7 @@ export default function VoteBarChart({ stage, votes }) {
         const pct = Math.round((count / maxCount) * 100)
         return (
           <div key={opt.id}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 18, marginBottom: 5 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: optionFontSize, marginBottom: 5 }}>
               <span>
                 <strong>{opt.id}.</strong> {opt.label}
               </span>

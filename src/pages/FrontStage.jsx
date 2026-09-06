@@ -76,11 +76,11 @@ export default function FrontStage() {
                 ★ 目前階段
               </div>
               <h2 style={{ margin: 0, fontSize: 'clamp(1.2rem, 2.4vw, 2rem)', color: '#fff' }}>{questionText}</h2>
-              <VoteBarChart stage={stage} votes={votes} />
+              <VoteBarChart stage={stage} votes={votes} optionFontSize="clamp(1.2rem, 2.4vw, 2rem)" />
             </>
           ) : stage.type === 'staticCloud' ? (
             <div style={{ flex: 1, minHeight: 0, minWidth: 0, overflow: 'hidden' }}>
-              <WordCloud items={stage.items.map((text, i) => ({ id: String(i), text }))} />
+              <WordCloud items={stage.items.map((text, i) => ({ id: String(i), text }))} randomize={false} />
             </div>
           ) : (
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
