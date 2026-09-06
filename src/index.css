@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Archivo+Black&display=swap');
+
+:root {
+  --ink: #000000;
+  --paper: #ffffff;
+  --spray: #ffe500;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'Noto Sans TC', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+/* 噴漆點狀背景紋理 */
+.spray-texture {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+.spray-texture-dark {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.08) 1.5px, transparent 1.5px);
+  background-size: 12px 12px;
+}
+
+/* 通用塗鴉標籤 */
+.tag-yellow {
+  background: var(--spray);
+  color: var(--ink);
+}
+
+.tag-black {
+  background: var(--ink);
+  color: var(--spray);
+}
+
+.stencil-btn {
+  font-family: 'Archivo Black', 'Noto Sans TC', sans-serif;
+  border: 3px solid var(--ink);
+  background: var(--spray);
+  color: var(--ink);
+  padding: 10px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transform: skew(-4deg);
+  transition: transform 0.12s ease, background 0.12s ease;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.stencil-btn:hover {
+  transform: skew(-4deg) translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.stencil-btn:active {
+  transform: skew(-4deg) translate(1px, 1px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.stencil-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.stencil-btn.selected {
+  background: var(--ink);
+  color: var(--spray);
+}
+
+::selection {
+  background: var(--spray);
+  color: var(--ink);
+}
+
+/* 捲軸 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--spray);
+}
+::-webkit-scrollbar-track {
+  background: var(--ink);
+}

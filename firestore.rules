@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 活動階段設定：任何人可讀，寫入僅做基本欄位檢查（無帳號系統，屬於輕量防呆，非嚴格權限控管）
+    match /config/{docId} {
+      allow read: if true;
+      allow write: if request.resource.data.keys().hasOnly(['currentStageId', 'menuQuestionText'])
+        && (!('currentStageId' in request.resource.data) || request.resource.data.currentStageId is string)
+        && (!('menuQuestionText' in request.resource.data) || (request.resource.data.menuQuestionText is string && request.resource.data.menuQuestionText.size() <= 200));
+    }
+
+    match /comments/{commentId} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasAll(['stageId', 'nickname', 'text', 'createdAt'])
+        && request.resource.data.stageId is string
+        && request.resource.data.nickname is string && request.resource.data.nickname.size() <= 20
+        && request.resource.data.text is string && request.resource.data.text.size() <= 100;
+      allow delete: if true; // 後台刪除留言用；無帳號系統，任何持有連結者理論上都能呼叫
+      allow update: if false;
+    }
+
+    match /votes/{voteId} {
+      allow read: if true;
+      allow create, update: if request.resource.data.keys().hasAll(['stageId', 'participantId', 'nickname', 'options', 'createdAt'])
+        && request.resource.data.stageId is string
+        && request.resource.data.participantId is string
+        && request.resource.data.options is list
+        && voteId == request.resource.data.stageId + '__' + request.resource.data.participantId;
+      allow delete: if false;
+    }
+  }
+}
