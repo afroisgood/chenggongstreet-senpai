@@ -40,7 +40,7 @@ function NicknameGate({ onSubmit }) {
 
 export default function Interactive() {
   const { nickname, setNickname, participantId } = useParticipant()
-  const [config, setConfig] = useState({ currentStageId: 'icebreak', menuQuestionText: '' })
+  const [config, setConfig] = useState({ currentStageId: 'icebreak' })
   const [selected, setSelected] = useState([])
   const [myVote, setMyVote] = useState(null)
   const [commentText, setCommentText] = useState('')
@@ -74,7 +74,7 @@ export default function Interactive() {
     return <NicknameGate onSubmit={setNickname} />
   }
 
-  const questionText = stage.id === 'menu' ? config.menuQuestionText || '主持人準備中…' : stage.question
+  const questionText = stage.question
 
   const toggleOption = (optId) => {
     if (stage.multiSelect) {
@@ -106,7 +106,7 @@ export default function Interactive() {
         <span style={{ fontSize: 13, opacity: 0.7 }}>{stage.name}</span>
       </header>
 
-      <h2 style={{ margin: 0, fontSize: '1.3rem', lineHeight: 1.5 }}>{questionText}</h2>
+      {questionText && <h2 style={{ margin: 0, fontSize: '1.3rem', lineHeight: 1.5 }}>{questionText}</h2>}
       {stage.type === 'vote' && stage.multiSelect && (
         <p style={{ margin: '-0.8rem 0 0', color: 'var(--spray)', fontSize: 13 }}>
           （可複選，投票後仍可修改）

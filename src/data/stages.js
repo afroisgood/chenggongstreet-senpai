@@ -67,9 +67,15 @@ export const STAGES = [
   {
     id: 'menu',
     name: '提問靈感菜單',
-    type: 'comment',
-    // question 由後台當場輸入，存在 Firestore config.menuQuestionText
+    type: 'staticCloud',
     question: null,
+    items: [
+      '大城市真的比較香嗎？台北讀書的夢幻與殘酷',
+      '沒有固定薪水、沒有老闆、沒有辦公室，真的比較自由嗎？',
+      '我現在根本不知道自己喜歡什麼，也不知道大學要念什麼系，這樣真的很糟嗎？',
+      '當你的選擇跟家人/社會期望不一樣時，怎麼辦？',
+      '在地方推廣滑板或塗鴉這種次文化，老一輩的社區鄰居不會抗議嗎？妳們怎麼溝通',
+    ],
   },
   {
     id: 'wordcloud',

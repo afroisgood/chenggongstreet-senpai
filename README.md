@@ -3,7 +3,7 @@
 三頁式活動互動網站：
 - `/#/` 前台頁面（大螢幕投影）
 - `/#/join` 互動頁面（參與者手機掃 QR code 進入）
-- `/#/admin` 管理後台（密碼 `sean2026`）
+- `/#/admin` 管理後台（密碼見 [src/pages/Admin.jsx](src/pages/Admin.jsx) 的 `ADMIN_PASSWORD`）
 
 技術：React + Vite，Firebase Firestore 做即時資料同步，部署到 GitHub Pages。
 
@@ -37,9 +37,9 @@ Repo：`afroisgood/chenggongstreet-senpai`
 ## 活動當天操作流程
 
 1. 大螢幕投影開啟前台網址 `https://afroisgood.github.io/chenggongstreet-senpai/#/`（首頁右下角有 QR code 可讓參與者掃描加入）
-2. 主持人另開一個分頁登入後台 `.../#/admin`（密碼 `sean2026`）
-3. 依序在後台切換活動階段：開頭破冰 → 投票一～四 → 提問靈感菜單（記得先在後台輸入當場題目文字）→ 文字雲階段
-4. 前台會即時反映後台切換的階段、投票長條圖與留言牆；文字雲階段前台會自動全螢幕顯示
+2. 主持人另開一個分頁登入後台 `.../#/admin`
+3. 依序在後台切換活動階段：開頭破冰 → 投票一～四 → 提問靈感菜單 → 文字雲階段
+4. 前台會即時反映後台切換的階段、投票長條圖與留言牆；提問靈感菜單與文字雲階段前台會自動全螢幕顯示
 
 ## 專案結構
 
@@ -49,6 +49,6 @@ src/
   lib/firebase.js       Firebase 初始化（需要填入 firebaseConfig）
   lib/data.js           Firestore 讀寫封裝（留言、投票、階段設定）
   context/              參與者暱稱 / participantId / 投票紀錄（存在瀏覽器 localStorage）
-  components/           GraffitiTitle、VoteBarChart、CommentWall、WordCloud、QRCodeBlock
+  components/           BubbleTitle、VoteBarChart、CommentWall、WordCloud、QRCodeBlock
   pages/                FrontStage、Interactive、Admin 三個路由頁面
 ```

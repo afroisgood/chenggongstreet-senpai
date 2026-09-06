@@ -10,7 +10,7 @@ import { subscribeConfig, subscribeComments, subscribeVotes } from '../lib/data'
 const TITLE = '我是你住在成功街還在等待成功的學姊跟她的朋友'
 
 export default function FrontStage() {
-  const [config, setConfig] = useState({ currentStageId: 'icebreak', menuQuestionText: '' })
+  const [config, setConfig] = useState({ currentStageId: 'icebreak' })
   const [comments, setComments] = useState([])
   const [votes, setVotes] = useState([])
 
@@ -36,13 +36,13 @@ export default function FrontStage() {
           <BubbleTitle text={stage.question} size="clamp(1.6rem, 5vw, 3.5rem)" />
         </div>
         <div style={{ flex: 1, minHeight: 0 }}>
-          <WordCloud comments={comments} />
+          <WordCloud items={comments} />
         </div>
       </div>
     )
   }
 
-  const questionText = stage.id === 'menu' ? config.menuQuestionText || '（後台尚未設定題目）' : stage.question
+  const questionText = stage.question
 
   return (
     <div className="spray-texture" style={{ minHeight: '100vh', background: 'var(--ink)', display: 'flex', flexDirection: 'column' }}>
@@ -73,6 +73,10 @@ export default function FrontStage() {
               )}
               <VoteBarChart stage={stage} votes={votes} />
             </>
+          ) : stage.type === 'staticCloud' ? (
+            <div style={{ flex: 1, minHeight: 0, minWidth: 0, overflow: 'hidden' }}>
+              <WordCloud items={stage.items.map((text, i) => ({ id: String(i), text }))} />
+            </div>
           ) : (
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
               <BubbleTitle text={questionText} size="clamp(2rem, 6vw, 4.5rem)" />

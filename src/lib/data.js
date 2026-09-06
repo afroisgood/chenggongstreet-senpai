@@ -18,21 +18,17 @@ function sortByCreatedAtDesc(docs) {
   return [...docs].sort((a, b) => (b.createdAt?.toMillis?.() ?? Infinity) - (a.createdAt?.toMillis?.() ?? Infinity))
 }
 
-// ---- config（目前階段 / 提問靈感菜單題目）----
+// ---- config（目前階段）----
 const configRef = doc(db, 'config', 'main')
 
 export function subscribeConfig(callback) {
   return onSnapshot(configRef, (snap) => {
-    callback(snap.exists() ? snap.data() : { currentStageId: 'icebreak', menuQuestionText: '' })
+    callback(snap.exists() ? snap.data() : { currentStageId: 'icebreak' })
   })
 }
 
 export function setCurrentStage(stageId) {
   return setDoc(configRef, { currentStageId: stageId }, { merge: true })
-}
-
-export function setMenuQuestionText(text) {
-  return setDoc(configRef, { menuQuestionText: text }, { merge: true })
 }
 
 // ---- 留言 ----

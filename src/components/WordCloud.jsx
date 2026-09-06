@@ -3,11 +3,19 @@ function pseudoRandom(seed) {
   return x - Math.floor(x)
 }
 
-const SIZES = ['1.6rem', '2.4rem', '3.2rem', '2rem', '2.8rem']
 const COLORS = ['var(--spray)', '#ffffff']
 
-export default function WordCloud({ comments }) {
-  if (comments.length === 0) {
+// 依文字長度決定字級：短答案（例如單一詞語）字級大、長句子字級縮小以維持不換行時仍能放得下
+function sizeForLength(len) {
+  if (len <= 6) return '3.4rem'
+  if (len <= 12) return '2.6rem'
+  if (len <= 24) return '2rem'
+  if (len <= 30) return '1.7rem'
+  return '1.4rem'
+}
+
+export default function WordCloud({ items }) {
+  if (items.length === 0) {
     return (
       <p style={{ opacity: 0.6, fontStyle: 'italic', textAlign: 'center', fontSize: '1.5rem' }}>
         等待大家留言中…
@@ -23,16 +31,16 @@ export default function WordCloud({ comments }) {
         justifyContent: 'center',
         alignItems: 'center',
         alignContent: 'center',
-        gap: '1.2rem 2rem',
+        gap: '1.4rem 2.2rem',
         height: '100%',
         overflow: 'hidden',
         padding: '2rem',
       }}
     >
-      {comments.map((c, i) => {
+      {items.map((c, i) => {
         const r = pseudoRandom(i + 1)
-        const rotate = (pseudoRandom(i + 50) - 0.5) * 16
-        const size = SIZES[i % SIZES.length]
+        const rotate = (pseudoRandom(i + 50) - 0.5) * 12
+        const size = sizeForLength(c.text.length)
         const color = COLORS[i % COLORS.length]
         return (
           <span
@@ -40,12 +48,13 @@ export default function WordCloud({ comments }) {
             style={{
               fontFamily: "'ZCOOL QingKe HuangYou', 'Noto Sans TC', sans-serif",
               fontSize: size,
+              lineHeight: 1.3,
               color,
               transform: `rotate(${rotate.toFixed(1)}deg)`,
               WebkitTextStroke: color === 'var(--spray)' ? '1px #000' : 'none',
               textShadow: '2px 2px 0 rgba(0,0,0,0.7)',
               whiteSpace: 'nowrap',
-              opacity: 0.55 + r * 0.45,
+              opacity: 0.6 + r * 0.4,
             }}
           >
             {c.text}

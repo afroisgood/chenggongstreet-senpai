@@ -4,7 +4,6 @@ import VoteBarChart from '../components/VoteBarChart'
 import {
   subscribeConfig,
   setCurrentStage,
-  setMenuQuestionText,
   subscribeVotes,
   subscribeAllComments,
   deleteComment,
@@ -60,26 +59,6 @@ function StageSwitcher({ currentStageId }) {
           {s.name}
         </button>
       ))}
-    </div>
-  )
-}
-
-function MenuQuestionEditor({ current }) {
-  const [value, setValue] = useState(current || '')
-
-  useEffect(() => setValue(current || ''), [current])
-
-  return (
-    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-      <input
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        placeholder="輸入提問靈感菜單題目"
-        style={{ flex: 1, minWidth: 220, padding: '10px 14px', border: '2px solid var(--spray)', borderRadius: 14, background: '#111', color: '#fff' }}
-      />
-      <button className="stencil-btn" onClick={() => setMenuQuestionText(value.trim())}>
-        更新題目
-      </button>
     </div>
   )
 }
@@ -167,7 +146,7 @@ function CommentModeration({ comments }) {
 
 export default function Admin() {
   const [authed, setAuthed] = useState(() => sessionStorage.getItem('isAdmin') === '1')
-  const [config, setConfig] = useState({ currentStageId: 'icebreak', menuQuestionText: '' })
+  const [config, setConfig] = useState({ currentStageId: 'icebreak' })
   const [votes, setVotes] = useState([])
   const [comments, setComments] = useState([])
 
@@ -203,13 +182,6 @@ export default function Admin() {
         <h2 style={{ fontSize: 12, color: '#cfae00', textTransform: 'uppercase', letterSpacing: 1 }}>切換活動階段</h2>
         <StageSwitcher currentStageId={config.currentStageId} />
       </section>
-
-      {stage?.id === 'menu' && (
-        <section>
-          <h2 style={{ fontSize: 12, color: '#cfae00', textTransform: 'uppercase', letterSpacing: 1 }}>提問靈感菜單題目</h2>
-          <MenuQuestionEditor current={config.menuQuestionText} />
-        </section>
-      )}
 
       {stage?.type === 'vote' && (
         <section>
