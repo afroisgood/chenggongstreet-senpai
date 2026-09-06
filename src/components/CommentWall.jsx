@@ -30,7 +30,7 @@ export default function CommentWall({ comments, emptyText = '還沒有留言，�
           >
             {c.nickname || '匿名'}
           </span>
-          <div style={{ fontSize: 15, wordBreak: 'break-word' }}>{c.text}</div>
+          <div style={{ fontSize: 19, wordBreak: 'break-word' }}>{c.text}</div>
         </div>
       ))}
     </div>

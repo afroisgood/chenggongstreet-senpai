@@ -10,7 +10,7 @@ export default function VoteBarChart({ stage, votes }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
-      <p style={{ fontFamily: "'GenSenRounded', 'Noto Sans TC', sans-serif", color: 'var(--spray)', margin: 0, fontSize: 14 }}>
+      <p style={{ fontFamily: "'GenSenRounded', 'Noto Sans TC', sans-serif", color: 'var(--spray)', margin: 0, fontSize: 18 }}>
         已投票人數：{totalVoters}
       </p>
       {stage.options.map((opt) => {
@@ -18,7 +18,7 @@ export default function VoteBarChart({ stage, votes }) {
         const pct = Math.round((count / maxCount) * 100)
         return (
           <div key={opt.id}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, marginBottom: 5 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 18, marginBottom: 5 }}>
               <span>
                 <strong>{opt.id}.</strong> {opt.label}
               </span>

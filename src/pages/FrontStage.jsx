@@ -76,11 +76,6 @@ export default function FrontStage() {
                 ★ 目前階段
               </div>
               <h2 style={{ margin: 0, fontSize: 'clamp(1.2rem, 2.4vw, 2rem)', color: '#fff' }}>{questionText}</h2>
-              {stage.multiSelect && (
-                <p style={{ margin: '-0.6rem 0 0', color: 'var(--spray)', fontSize: 13 }}>
-                  （可複選）
-                </p>
-              )}
               <VoteBarChart stage={stage} votes={votes} />
             </>
           ) : stage.type === 'staticCloud' ? (
