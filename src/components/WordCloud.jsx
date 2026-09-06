@@ -43,6 +43,19 @@ export default function WordCloud({ items, randomize = true }) {
   }
 
   const rootPx = 16
+  // 固定題目清單（randomize=false）全部統一用同一個字級，而不是各自依長度縮放。
+  // 這個共用字級以第一行的理想字級為目標，但仍要保證「最長的那一行」也放得下，
+  // 否則整批一起縮到最長行安全的大小，確保不會有任何一行被裁切。
+  let sharedSizePx = null
+  if (!randomize && items.length > 0) {
+    sharedSizePx = idealRemForLength(Array.from(items[0].text).length) * rootPx
+    if (availableWidth > 0) {
+      const tightestMaxPx = Math.min(
+        ...items.map((it) => (availableWidth * 0.94) / Array.from(it.text).length),
+      )
+      sharedSizePx = Math.min(sharedSizePx, tightestMaxPx)
+    }
+  }
 
   return (
     <div
@@ -65,11 +78,16 @@ export default function WordCloud({ items, randomize = true }) {
         // 固定題目用的清單（randomize=false）不旋轉，避免互相遮擋
         const rotate = randomize ? (pseudoRandom(i + 50) - 0.5) * 12 : 0
         const len = Array.from(c.text).length
-        let sizePx = idealRemForLength(len) * rootPx
-        if (availableWidth > 0) {
-          // 中文字大約跟字級等寬，抓 6% 安全邊距避免貼齊容器邊緣被裁切
-          const maxPxByWidth = (availableWidth * 0.94) / len
-          sizePx = Math.min(sizePx, maxPxByWidth)
+        let sizePx
+        if (sharedSizePx !== null) {
+          sizePx = sharedSizePx
+        } else {
+          sizePx = idealRemForLength(len) * rootPx
+          if (availableWidth > 0) {
+            // 中文字大約跟字級等寬，抓 6% 安全邊距避免貼齊容器邊緣被裁切
+            const maxPxByWidth = (availableWidth * 0.94) / len
+            sizePx = Math.min(sizePx, maxPxByWidth)
+          }
         }
         const color = COLORS[i % COLORS.length]
         return (
