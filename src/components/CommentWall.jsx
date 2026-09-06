@@ -8,24 +8,28 @@ export default function CommentWall({ comments, emptyText = '還沒有留言，�
         <div
           key={c.id}
           style={{
-            background: 'var(--spray)',
-            color: 'var(--ink)',
-            padding: '10px 14px',
-            borderRadius: '2px 14px 14px 14px',
-            transform: 'skew(-1deg)',
-            boxShadow: '3px 3px 0 rgba(0,0,0,0.6)',
+            background: '#fff',
+            color: '#201800',
+            padding: '9px 13px',
+            borderRadius: '4px 16px 16px 16px',
+            border: '2px solid #000',
+            boxShadow: '3px 3px 0 rgba(0,0,0,0.9)',
           }}
         >
-          <div
+          <span
             style={{
-              fontFamily: "'Archivo Black', sans-serif",
-              fontSize: 12,
+              display: 'inline-block',
+              fontFamily: "'ZCOOL KuaiLe', 'Noto Sans TC', sans-serif",
+              fontSize: 11,
               marginBottom: 4,
-              opacity: 0.75,
+              padding: '1px 9px',
+              borderRadius: 999,
+              border: '1.5px solid #000',
+              background: 'var(--spray)',
             }}
           >
             {c.nickname || '匿名'}
-          </div>
+          </span>
           <div style={{ fontSize: 15, wordBreak: 'break-word' }}>{c.text}</div>
         </div>
       ))}

@@ -6,8 +6,8 @@ import { subscribeConfig, postComment, submitVote, subscribeMyVote } from '../li
 function NicknameGate({ onSubmit }) {
   const [value, setValue] = useState('')
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 20, padding: 24, background: 'var(--ink)' }}>
-      <h1 style={{ color: 'var(--spray)', fontFamily: "'Archivo Black', sans-serif", fontSize: '1.6rem', textAlign: 'center' }}>
+    <div className="spray-texture" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 20, padding: 24, background: 'var(--ink)' }}>
+      <h1 style={{ color: 'var(--spray)', fontFamily: "'ZCOOL QingKe HuangYou', 'Noto Sans TC', sans-serif", WebkitTextStroke: '1.2px #000', paintOrder: 'stroke fill', fontSize: '1.8rem', textAlign: 'center' }}>
         先取一個暱稱
       </h1>
       <input
@@ -19,6 +19,7 @@ function NicknameGate({ onSubmit }) {
           fontSize: 18,
           padding: '12px 16px',
           border: '3px solid var(--spray)',
+          borderRadius: 14,
           background: '#111',
           color: '#fff',
           width: '100%',
@@ -97,9 +98,9 @@ export default function Interactive() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--ink)', color: '#fff', padding: '1.5rem 1.2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <div className="spray-texture" style={{ minHeight: '100vh', background: 'var(--ink)', color: '#fff', padding: '1.5rem 1.2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span className="tag-yellow" style={{ padding: '4px 12px', fontFamily: "'Archivo Black', sans-serif", fontSize: 13, transform: 'skew(-6deg)', display: 'inline-block' }}>
+        <span className="tag-yellow" style={{ display: 'inline-block' }}>
           {nickname}
         </span>
         <span style={{ fontSize: 13, opacity: 0.7 }}>{stage.name}</span>
@@ -107,7 +108,7 @@ export default function Interactive() {
 
       <h2 style={{ margin: 0, fontSize: '1.3rem', lineHeight: 1.5 }}>{questionText}</h2>
       {stage.type === 'vote' && stage.multiSelect && (
-        <p style={{ margin: '-0.8rem 0 0', color: 'var(--spray)', fontSize: 13, fontFamily: "'Archivo Black', sans-serif" }}>
+        <p style={{ margin: '-0.8rem 0 0', color: 'var(--spray)', fontSize: 13 }}>
           （可複選，投票後仍可修改）
         </p>
       )}
@@ -140,6 +141,7 @@ export default function Interactive() {
             background: '#111',
             color: '#fff',
             border: '3px solid var(--spray)',
+            borderRadius: 14,
             padding: '10px 12px',
             fontSize: 15,
             resize: 'none',

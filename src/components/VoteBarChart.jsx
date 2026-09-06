@@ -9,8 +9,8 @@ export default function VoteBarChart({ stage, votes }) {
   const maxCount = Math.max(1, ...Object.values(counts))
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <p style={{ fontFamily: "'Archivo Black', sans-serif", color: 'var(--spray)', margin: 0 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
+      <p style={{ fontFamily: "'ZCOOL KuaiLe', 'Noto Sans TC', sans-serif", color: 'var(--spray)', margin: 0, fontSize: 14 }}>
         已投票人數：{totalVoters}
       </p>
       {stage.options.map((opt) => {
@@ -18,23 +18,35 @@ export default function VoteBarChart({ stage, votes }) {
         const pct = Math.round((count / maxCount) * 100)
         return (
           <div key={opt.id}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, marginBottom: 4 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, marginBottom: 5 }}>
               <span>
                 <strong>{opt.id}.</strong> {opt.label}
               </span>
-              <span style={{ fontFamily: "'Archivo Black', sans-serif", flexShrink: 0, marginLeft: 8 }}>
+              <span style={{ fontFamily: "'ZCOOL KuaiLe', 'Noto Sans TC', sans-serif", flexShrink: 0, marginLeft: 8 }}>
                 {count}
               </span>
             </div>
-            <div style={{ background: 'rgba(255,255,255,0.12)', height: 16, border: '2px solid #000' }}>
+            <div style={{ background: '#1c1c1c', height: 16, borderRadius: 999, border: '2px solid rgba(255,255,255,0.12)' }}>
               <div
                 style={{
                   width: `${pct}%`,
                   height: '100%',
-                  background: 'var(--spray)',
+                  borderRadius: 999,
+                  background: 'linear-gradient(180deg, #FFF3A3 0%, var(--spray) 55%, #E6CE00 100%)',
+                  position: 'relative',
                   transition: 'width 0.4s ease',
                 }}
-              />
+              >
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: '2px 2px auto 2px',
+                    height: '35%',
+                    background: 'rgba(255,255,255,0.8)',
+                    borderRadius: '999px 999px 0 0',
+                  }}
+                />
+              </div>
             </div>
           </div>
         )

@@ -38,8 +38,7 @@ export default function WordCloud({ comments }) {
           <span
             key={c.id}
             style={{
-              fontFamily: "'Noto Sans TC', sans-serif",
-              fontWeight: 900,
+              fontFamily: "'ZCOOL QingKe HuangYou', 'Noto Sans TC', sans-serif",
               fontSize: size,
               color,
               transform: `rotate(${rotate.toFixed(1)}deg)`,

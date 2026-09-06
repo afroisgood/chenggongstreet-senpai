@@ -28,9 +28,9 @@ function AdminLogin({ onSuccess }) {
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', background: 'var(--ink)' }}>
+    <div className="spray-texture" style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', background: 'var(--ink)' }}>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14, width: 280 }}>
-        <h1 style={{ color: 'var(--spray)', fontFamily: "'Archivo Black', sans-serif", fontSize: '1.4rem', textAlign: 'center' }}>
+        <h1 style={{ color: 'var(--spray)', fontFamily: "'ZCOOL QingKe HuangYou', 'Noto Sans TC', sans-serif", WebkitTextStroke: '1.2px #000', paintOrder: 'stroke fill', fontSize: '1.6rem', textAlign: 'center' }}>
           管理後台登入
         </h1>
         <input
@@ -38,7 +38,7 @@ function AdminLogin({ onSuccess }) {
           value={pw}
           onChange={(e) => setPw(e.target.value)}
           placeholder="密碼"
-          style={{ padding: '10px 14px', fontSize: 16, border: '3px solid var(--spray)', background: '#111', color: '#fff', textAlign: 'center' }}
+          style={{ padding: '10px 14px', fontSize: 16, border: '3px solid var(--spray)', borderRadius: 14, background: '#111', color: '#fff', textAlign: 'center' }}
         />
         {error && <p style={{ color: '#ff5555', fontSize: 13, textAlign: 'center' }}>{error}</p>}
         <button className="stencil-btn" type="submit">登入</button>
@@ -75,7 +75,7 @@ function MenuQuestionEditor({ current }) {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder="輸入提問靈感菜單題目"
-        style={{ flex: 1, minWidth: 220, padding: '10px 14px', border: '2px solid var(--spray)', background: '#111', color: '#fff' }}
+        style={{ flex: 1, minWidth: 220, padding: '10px 14px', border: '2px solid var(--spray)', borderRadius: 14, background: '#111', color: '#fff' }}
       />
       <button className="stencil-btn" onClick={() => setMenuQuestionText(value.trim())}>
         更新題目
@@ -103,7 +103,17 @@ function ResetVotesButton({ stage }) {
     <button
       onClick={handleClick}
       disabled={resetting}
-      style={{ background: '#c0392b', color: '#fff', border: 'none', padding: '8px 14px', cursor: 'pointer', fontSize: 13 }}
+      style={{
+        fontFamily: "'ZCOOL KuaiLe', 'Noto Sans TC', sans-serif",
+        background: '#E4433A',
+        color: '#fff',
+        border: '2px solid #000',
+        borderRadius: 999,
+        padding: '8px 16px',
+        cursor: 'pointer',
+        fontSize: 13,
+        boxShadow: '0 3px 0 #7a1510',
+      }}
     >
       {resetting ? '清除中…' : '重置本題投票'}
     </button>
@@ -124,7 +134,8 @@ function CommentModeration({ comments }) {
             gap: 12,
             background: '#111',
             border: '1px solid #333',
-            padding: '8px 12px',
+            borderRadius: 14,
+            padding: '9px 13px',
           }}
         >
           <div style={{ minWidth: 0 }}>
@@ -135,7 +146,16 @@ function CommentModeration({ comments }) {
           </div>
           <button
             onClick={() => deleteComment(c.id)}
-            style={{ background: '#c0392b', color: '#fff', border: 'none', padding: '6px 10px', cursor: 'pointer', flexShrink: 0 }}
+            style={{
+              fontFamily: "'ZCOOL KuaiLe', 'Noto Sans TC', sans-serif",
+              background: '#E4433A',
+              color: '#fff',
+              border: '2px solid #000',
+              borderRadius: 999,
+              padding: '6px 12px',
+              cursor: 'pointer',
+              flexShrink: 0,
+            }}
           >
             刪除
           </button>
@@ -174,19 +194,19 @@ export default function Admin() {
   if (!authed) return <AdminLogin onSuccess={() => setAuthed(true)} />
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--ink)', color: '#fff', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      <h1 style={{ color: 'var(--spray)', fontFamily: "'Archivo Black', sans-serif", fontSize: '1.6rem', margin: 0 }}>
+    <div className="spray-texture" style={{ minHeight: '100vh', background: 'var(--ink)', color: '#fff', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <h1 style={{ color: 'var(--spray)', fontFamily: "'ZCOOL QingKe HuangYou', 'Noto Sans TC', sans-serif", WebkitTextStroke: '1.2px #000', paintOrder: 'stroke fill', fontSize: '1.8rem', margin: 0 }}>
         管理後台
       </h1>
 
       <section>
-        <h2 style={{ fontSize: 14, color: '#aaa', textTransform: 'uppercase', letterSpacing: 1 }}>切換活動階段</h2>
+        <h2 style={{ fontSize: 12, color: '#cfae00', textTransform: 'uppercase', letterSpacing: 1 }}>切換活動階段</h2>
         <StageSwitcher currentStageId={config.currentStageId} />
       </section>
 
       {stage?.id === 'menu' && (
         <section>
-          <h2 style={{ fontSize: 14, color: '#aaa', textTransform: 'uppercase', letterSpacing: 1 }}>提問靈感菜單題目</h2>
+          <h2 style={{ fontSize: 12, color: '#cfae00', textTransform: 'uppercase', letterSpacing: 1 }}>提問靈感菜單題目</h2>
           <MenuQuestionEditor current={config.menuQuestionText} />
         </section>
       )}
@@ -194,7 +214,7 @@ export default function Admin() {
       {stage?.type === 'vote' && (
         <section>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
-            <h2 style={{ fontSize: 14, color: '#aaa', textTransform: 'uppercase', letterSpacing: 1, margin: 0 }}>
+            <h2 style={{ fontSize: 12, color: '#cfae00', textTransform: 'uppercase', letterSpacing: 1, margin: 0 }}>
               即時投票結果：{stage.name}
             </h2>
             <ResetVotesButton stage={stage} />
@@ -204,7 +224,7 @@ export default function Admin() {
       )}
 
       <section>
-        <h2 style={{ fontSize: 14, color: '#aaa', textTransform: 'uppercase', letterSpacing: 1 }}>留言管理</h2>
+        <h2 style={{ fontSize: 12, color: '#cfae00', textTransform: 'uppercase', letterSpacing: 1 }}>留言管理</h2>
         <CommentModeration comments={comments} />
       </section>
     </div>

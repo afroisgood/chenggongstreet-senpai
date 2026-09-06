@@ -6,17 +6,18 @@ export default function QRCodeBlock({ size = 120 }) {
     <div
       style={{
         background: '#fff',
-        padding: 10,
+        padding: 12,
         display: 'inline-flex',
         flexDirection: 'column',
         alignItems: 'center',
         gap: 6,
-        transform: 'rotate(-2deg)',
+        borderRadius: 18,
+        border: '3px solid #000',
         boxShadow: '4px 4px 0 var(--spray)',
       }}
     >
       <QRCodeSVG value={joinUrl} size={size} bgColor="#ffffff" fgColor="#000000" />
-      <span style={{ color: '#000', fontFamily: "'Archivo Black', sans-serif", fontSize: 12 }}>
+      <span style={{ color: '#201800', fontFamily: "'ZCOOL KuaiLe', 'Noto Sans TC', sans-serif", fontSize: 12 }}>
         掃描加入互動
       </span>
     </div>

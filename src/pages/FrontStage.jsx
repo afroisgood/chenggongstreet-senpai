@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import GraffitiTitle from '../components/GraffitiTitle'
+import BubbleTitle from '../components/BubbleTitle'
 import CommentWall from '../components/CommentWall'
 import VoteBarChart from '../components/VoteBarChart'
 import WordCloud from '../components/WordCloud'
@@ -33,7 +33,7 @@ export default function FrontStage() {
     return (
       <div className="spray-texture" style={{ height: '100vh', background: 'var(--ink)', display: 'flex', flexDirection: 'column' }}>
         <div style={{ padding: '1.5rem 1rem 0' }}>
-          <GraffitiTitle text={stage.question} size="clamp(1.6rem, 5vw, 3.5rem)" />
+          <BubbleTitle text={stage.question} size="clamp(1.6rem, 5vw, 3.5rem)" />
         </div>
         <div style={{ flex: 1, minHeight: 0 }}>
           <WordCloud comments={comments} />
@@ -47,7 +47,7 @@ export default function FrontStage() {
   return (
     <div className="spray-texture" style={{ minHeight: '100vh', background: 'var(--ink)', display: 'flex', flexDirection: 'column' }}>
       <header style={{ padding: '1.5rem 1rem 1rem', borderBottom: '4px solid var(--spray)' }}>
-        <GraffitiTitle text={TITLE} />
+        <BubbleTitle text={TITLE} />
       </header>
 
       <main
@@ -62,12 +62,12 @@ export default function FrontStage() {
         <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem', minWidth: 0 }}>
           {stage.type === 'vote' ? (
             <>
-              <div className="tag-yellow" style={{ display: 'inline-block', padding: '6px 16px', fontFamily: "'Archivo Black', sans-serif", fontSize: 14, alignSelf: 'flex-start', transform: 'skew(-6deg)' }}>
-                目前階段
+              <div className="tag-yellow" style={{ display: 'inline-block', alignSelf: 'flex-start' }}>
+                ★ 目前階段
               </div>
               <h2 style={{ margin: 0, fontSize: 'clamp(1.2rem, 2.4vw, 2rem)', color: '#fff' }}>{questionText}</h2>
               {stage.multiSelect && (
-                <p style={{ margin: '-0.6rem 0 0', color: 'var(--spray)', fontSize: 13, fontFamily: "'Archivo Black', sans-serif" }}>
+                <p style={{ margin: '-0.6rem 0 0', color: 'var(--spray)', fontSize: 13 }}>
                   （可複選）
                 </p>
               )}
@@ -75,7 +75,7 @@ export default function FrontStage() {
             </>
           ) : (
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-              <GraffitiTitle text={questionText} size="clamp(2rem, 6vw, 4.5rem)" />
+              <BubbleTitle text={questionText} size="clamp(2rem, 6vw, 4.5rem)" />
             </div>
           )}
 
@@ -89,14 +89,14 @@ export default function FrontStage() {
             display: 'flex',
             flexDirection: 'column',
             minWidth: 0,
-            background: 'rgba(255,255,255,0.03)',
+            background: 'rgba(255,255,255,0.04)',
             border: '2px solid var(--spray)',
-            borderRadius: 8,
+            borderRadius: 20,
             padding: '1rem',
           }}
         >
-          <div className="tag-black" style={{ display: 'inline-block', padding: '6px 16px', fontFamily: "'Archivo Black', sans-serif", fontSize: 14, alignSelf: 'flex-start', marginBottom: '0.8rem', transform: 'skew(-6deg)' }}>
-            留言區
+          <div className="tag-black" style={{ display: 'inline-block', alignSelf: 'flex-start', marginBottom: '0.8rem' }}>
+            ♡ 留言區
           </div>
           <CommentWall comments={comments} />
         </section>
