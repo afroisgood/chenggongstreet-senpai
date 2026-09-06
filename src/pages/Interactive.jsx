@@ -7,7 +7,7 @@ function NicknameGate({ onSubmit }) {
   const [value, setValue] = useState('')
   return (
     <div className="spray-texture" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 20, padding: 24, background: 'var(--ink)' }}>
-      <h1 style={{ color: 'var(--spray)', fontFamily: "'ZCOOL QingKe HuangYou', 'Noto Sans TC', sans-serif", WebkitTextStroke: '1.2px #000', paintOrder: 'stroke fill', fontSize: '1.8rem', textAlign: 'center' }}>
+      <h1 style={{ color: 'var(--spray)', WebkitTextStroke: '1.2px #000', paintOrder: 'stroke fill', fontSize: '1.8rem', textAlign: 'center' }}>
         先取一個暱稱
       </h1>
       <input

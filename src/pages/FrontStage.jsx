@@ -5,26 +5,29 @@ import VoteBarChart from '../components/VoteBarChart'
 import WordCloud from '../components/WordCloud'
 import QRCodeBlock from '../components/QRCodeBlock'
 import { STAGES, getStage } from '../data/stages'
-import { subscribeConfig, subscribeComments, subscribeVotes } from '../lib/data'
+import { subscribeConfig, subscribeComments, subscribeAllComments, subscribeVotes } from '../lib/data'
 
 const TITLE = '我是你住在成功街還在等待成功的學姊跟她的朋友'
 
 export default function FrontStage() {
   const [config, setConfig] = useState({ currentStageId: 'icebreak' })
   const [comments, setComments] = useState([])
+  const [wordcloudComments, setWordcloudComments] = useState([])
   const [votes, setVotes] = useState([])
 
   useEffect(() => subscribeConfig(setConfig), [])
+  // 留言區是全站共用的單一留言牆，不隨階段切換而分開，所以只訂閱一次
+  useEffect(() => subscribeAllComments(setComments), [])
 
   const stage = getStage(config.currentStageId) || STAGES[0]
 
   useEffect(() => {
-    setComments([])
     setVotes([])
-    const unsubComments = subscribeComments(stage.id, setComments)
+    setWordcloudComments([])
+    const unsubWordcloud = stage.type === 'wordcloud' ? subscribeComments(stage.id, setWordcloudComments) : () => {}
     const unsubVotes = stage.type === 'vote' ? subscribeVotes(stage.id, setVotes) : () => {}
     return () => {
-      unsubComments()
+      unsubWordcloud()
       unsubVotes()
     }
   }, [stage.id, stage.type])
@@ -33,10 +36,10 @@ export default function FrontStage() {
     return (
       <div className="spray-texture" style={{ height: '100vh', background: 'var(--ink)', display: 'flex', flexDirection: 'column' }}>
         <div style={{ padding: '1.5rem 1rem 0' }}>
-          <BubbleTitle text={stage.question} size="clamp(1.6rem, 5vw, 3.5rem)" />
+          <BubbleTitle text={stage.question} size="clamp(1.6rem, 5vw, 3.5rem)" font="'ZCOOL KuaiLe', 'Noto Sans TC', sans-serif" />
         </div>
         <div style={{ flex: 1, minHeight: 0 }}>
-          <WordCloud items={comments} />
+          <WordCloud items={wordcloudComments} />
         </div>
       </div>
     )
@@ -45,7 +48,11 @@ export default function FrontStage() {
   const questionText = stage.question
 
   return (
-    <div className="spray-texture" style={{ height: '100vh', overflow: 'hidden', background: 'var(--ink)', display: 'flex', flexDirection: 'column' }}>
+    <div className="spray-texture" style={{ height: '100vh', overflow: 'hidden', background: 'var(--ink)', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+      <div style={{ position: 'absolute', top: '1rem', right: '1rem', zIndex: 10 }}>
+        <QRCodeBlock size={84} />
+      </div>
+
       <header style={{ padding: '1.5rem 1rem 1rem', borderBottom: '4px solid var(--spray)' }}>
         <BubbleTitle text={TITLE} />
       </header>
@@ -81,13 +88,9 @@ export default function FrontStage() {
             </div>
           ) : (
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-              <BubbleTitle text={questionText} size="clamp(2rem, 6vw, 4.5rem)" />
+              <BubbleTitle text={questionText} size="clamp(2rem, 6vw, 4.5rem)" font="'ZCOOL KuaiLe', 'Noto Sans TC', sans-serif" />
             </div>
           )}
-
-          <div style={{ marginTop: 'auto' }}>
-            <QRCodeBlock />
-          </div>
         </section>
 
         <section

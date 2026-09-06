@@ -21,12 +21,13 @@ body {
   margin: 0;
   background: var(--ink);
   color: var(--paper);
-  font-family: 'Noto Sans TC', system-ui, sans-serif;
+  font-family: 'ZCOOL KuaiLe', 'Noto Sans TC', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
 button,
-input {
+input,
+textarea {
   font-family: inherit;
 }
 
