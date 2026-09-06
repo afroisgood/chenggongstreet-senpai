@@ -46,7 +46,7 @@ export default function WordCloud({ items }) {
           <span
             key={c.id}
             style={{
-              fontFamily: "'ZCOOL QingKe HuangYou', 'Noto Sans TC', sans-serif",
+              fontFamily: "'GenSenRounded', 'Noto Sans TC', sans-serif",
               fontSize: size,
               lineHeight: 1.3,
               color,

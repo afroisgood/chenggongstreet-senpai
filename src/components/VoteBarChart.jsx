@@ -10,7 +10,7 @@ export default function VoteBarChart({ stage, votes }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
-      <p style={{ fontFamily: "'ZCOOL QingKe HuangYou', 'Noto Sans TC', sans-serif", color: 'var(--spray)', margin: 0, fontSize: 14 }}>
+      <p style={{ fontFamily: "'GenSenRounded', 'Noto Sans TC', sans-serif", color: 'var(--spray)', margin: 0, fontSize: 14 }}>
         已投票人數：{totalVoters}
       </p>
       {stage.options.map((opt) => {
@@ -22,7 +22,7 @@ export default function VoteBarChart({ stage, votes }) {
               <span>
                 <strong>{opt.id}.</strong> {opt.label}
               </span>
-              <span style={{ fontFamily: "'ZCOOL QingKe HuangYou', 'Noto Sans TC', sans-serif", flexShrink: 0, marginLeft: 8 }}>
+              <span style={{ fontFamily: "'GenSenRounded', 'Noto Sans TC', sans-serif", flexShrink: 0, marginLeft: 8 }}>
                 {count}
               </span>
             </div>

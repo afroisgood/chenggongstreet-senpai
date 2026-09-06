@@ -19,7 +19,7 @@ export default function CommentWall({ comments, emptyText = '還沒有留言，�
           <span
             style={{
               display: 'inline-block',
-              fontFamily: "'ZCOOL QingKe HuangYou', 'Noto Sans TC', sans-serif",
+              fontFamily: "'GenSenRounded', 'Noto Sans TC', sans-serif",
               fontSize: 11,
               marginBottom: 4,
               padding: '1px 9px',

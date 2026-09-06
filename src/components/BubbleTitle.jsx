@@ -1,7 +1,7 @@
 export default function BubbleTitle({
   text,
   size = 'clamp(1.4rem, 4.2vw, 3.2rem)',
-  font = "'ZCOOL QingKe HuangYou', 'Noto Sans TC', sans-serif",
+  font = "'GenSenRounded', 'Noto Sans TC', sans-serif",
 }) {
   return (
     <h1

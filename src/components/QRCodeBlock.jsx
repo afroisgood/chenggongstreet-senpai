@@ -17,7 +17,7 @@ export default function QRCodeBlock({ size = 120 }) {
       }}
     >
       <QRCodeSVG value={joinUrl} size={size} bgColor="#ffffff" fgColor="#000000" />
-      <span style={{ color: '#201800', fontFamily: "'ZCOOL QingKe HuangYou', 'Noto Sans TC', sans-serif", fontSize: 12 }}>
+      <span style={{ color: '#201800', fontFamily: "'GenSenRounded', 'Noto Sans TC', sans-serif", fontSize: 12 }}>
         掃描加入互動
       </span>
     </div>

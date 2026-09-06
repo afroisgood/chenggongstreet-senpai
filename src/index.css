@@ -1,4 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=ZCOOL+QingKe+HuangYou&family=ZCOOL+KuaiLe&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap');
+
+/* 源泉圓體（GenSen Rounded）by ButTaiwan，SIL OFL 1.1 授權，見 assets/fonts/OFL-GenSenRounded.txt */
+@font-face {
+  font-family: 'GenSenRounded';
+  src: url('./assets/fonts/GenSenRounded2TC-B.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   --ink: #000000;
@@ -21,7 +30,7 @@ body {
   margin: 0;
   background: var(--ink);
   color: var(--paper);
-  font-family: 'ZCOOL QingKe HuangYou', 'Noto Sans TC', system-ui, sans-serif;
+  font-family: 'GenSenRounded', 'Noto Sans TC', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -54,7 +63,7 @@ a {
 /* 泡泡糖甜心：果凍膠囊標籤 */
 .tag-yellow,
 .tag-black {
-  font-family: 'ZCOOL QingKe HuangYou', 'Noto Sans TC', sans-serif;
+  font-family: 'GenSenRounded', 'Noto Sans TC', sans-serif;
   padding: 7px 16px;
   border-radius: 999px;
   border: 2px solid var(--ink);
@@ -75,7 +84,7 @@ a {
 }
 
 .stencil-btn {
-  font-family: 'ZCOOL QingKe HuangYou', 'Noto Sans TC', sans-serif;
+  font-family: 'GenSenRounded', 'Noto Sans TC', sans-serif;
   border: 2px solid var(--ink);
   border-radius: 999px;
   background: linear-gradient(180deg, #FFF3A3 0%, var(--spray) 55%, #E6CE00 100%);

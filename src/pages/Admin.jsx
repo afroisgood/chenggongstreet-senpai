@@ -29,7 +29,7 @@ function AdminLogin({ onSuccess }) {
   return (
     <div className="spray-texture" style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', background: 'var(--ink)' }}>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14, width: 280 }}>
-        <h1 style={{ color: 'var(--spray)', fontFamily: "'ZCOOL QingKe HuangYou', 'Noto Sans TC', sans-serif", WebkitTextStroke: '1.2px #000', paintOrder: 'stroke fill', fontSize: '1.6rem', textAlign: 'center' }}>
+        <h1 style={{ color: 'var(--spray)', fontFamily: "'GenSenRounded', 'Noto Sans TC', sans-serif", WebkitTextStroke: '1.2px #000', paintOrder: 'stroke fill', fontSize: '1.6rem', textAlign: 'center' }}>
           管理後台登入
         </h1>
         <input
@@ -83,7 +83,7 @@ function ResetVotesButton({ stage }) {
       onClick={handleClick}
       disabled={resetting}
       style={{
-        fontFamily: "'ZCOOL KuaiLe', 'Noto Sans TC', sans-serif",
+        fontFamily: "'GenSenRounded', 'Noto Sans TC', sans-serif",
         background: '#E4433A',
         color: '#fff',
         border: '2px solid #000',
@@ -126,7 +126,7 @@ function CommentModeration({ comments }) {
           <button
             onClick={() => deleteComment(c.id)}
             style={{
-              fontFamily: "'ZCOOL KuaiLe', 'Noto Sans TC', sans-serif",
+              fontFamily: "'GenSenRounded', 'Noto Sans TC', sans-serif",
               background: '#E4433A',
               color: '#fff',
               border: '2px solid #000',
@@ -174,7 +174,7 @@ export default function Admin() {
 
   return (
     <div className="spray-texture" style={{ minHeight: '100vh', background: 'var(--ink)', color: '#fff', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      <h1 style={{ color: 'var(--spray)', fontFamily: "'ZCOOL QingKe HuangYou', 'Noto Sans TC', sans-serif", WebkitTextStroke: '1.2px #000', paintOrder: 'stroke fill', fontSize: '1.8rem', margin: 0 }}>
+      <h1 style={{ color: 'var(--spray)', fontFamily: "'GenSenRounded', 'Noto Sans TC', sans-serif", WebkitTextStroke: '1.2px #000', paintOrder: 'stroke fill', fontSize: '1.8rem', margin: 0 }}>
         管理後台
       </h1>
 

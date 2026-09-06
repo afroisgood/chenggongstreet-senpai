@@ -7,6 +7,8 @@
 
 技術：React + Vite，Firebase Firestore 做即時資料同步，部署到 GitHub Pages。
 
+字體使用[源泉圓體](https://github.com/ButTaiwan/gensen-font)（ButTaiwan，SIL Open Font License 1.1，見 [`src/assets/fonts/OFL-GenSenRounded.txt`](src/assets/fonts/OFL-GenSenRounded.txt)），自行打包成 woff2 隨網站發佈，單一粗體約 8MB，第一次載入需要一點時間。
+
 ## 開發前設定
 
 ### 1. 建立 Firebase 專案
@@ -36,7 +38,7 @@ Repo：`afroisgood/chenggongstreet-senpai`
 
 ## 活動當天操作流程
 
-1. 大螢幕投影開啟前台網址 `https://afroisgood.github.io/chenggongstreet-senpai/#/`（首頁右下角有 QR code 可讓參與者掃描加入）
+1. 大螢幕投影開啟前台網址 `https://afroisgood.github.io/chenggongstreet-senpai/#/`（左側選項下方有 QR code 可讓參與者掃描加入）
 2. 主持人另開一個分頁登入後台 `.../#/admin`
 3. 依序在後台切換活動階段：開頭破冰 → 投票一～四 → 提問靈感菜單 → 文字雲階段
 4. 前台會即時反映後台切換的階段、投票長條圖與留言牆；提問靈感菜單與文字雲階段前台會自動全螢幕顯示
