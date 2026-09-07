@@ -99,46 +99,67 @@ function ResetVotesButton({ stage }) {
   )
 }
 
+function CommentRow({ comment }) {
+  const [deleting, setDeleting] = useState(false)
+
+  const handleDelete = async () => {
+    if (deleting) return
+    if (!window.confirm(`確定要刪除這則留言嗎？此動作無法復原。\n\n「${comment.text}」`)) return
+    setDeleting(true)
+    try {
+      await deleteComment(comment.id)
+    } catch (err) {
+      alert(`刪除失敗：${err.message}`)
+      setDeleting(false)
+    }
+  }
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: 12,
+        background: '#111',
+        border: '1px solid #333',
+        borderRadius: 14,
+        padding: '9px 13px',
+      }}
+    >
+      <div style={{ minWidth: 0 }}>
+        <div style={{ fontSize: 11, opacity: 0.6 }}>
+          {getStage(comment.stageId)?.name || comment.stageId} · {comment.nickname}
+        </div>
+        <div style={{ wordBreak: 'break-word' }}>{comment.text}</div>
+      </div>
+      <button
+        onClick={handleDelete}
+        disabled={deleting}
+        style={{
+          fontFamily: "'GenSenRounded', 'Noto Sans TC', sans-serif",
+          background: '#E4433A',
+          color: '#fff',
+          border: '2px solid #000',
+          borderRadius: 999,
+          padding: '6px 12px',
+          cursor: deleting ? 'not-allowed' : 'pointer',
+          opacity: deleting ? 0.6 : 1,
+          flexShrink: 0,
+        }}
+      >
+        {deleting ? '刪除中…' : '刪除'}
+      </button>
+    </div>
+  )
+}
+
 function CommentModeration({ comments }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 420, overflowY: 'auto' }}>
       {comments.length === 0 && <p style={{ opacity: 0.6 }}>目前沒有留言</p>}
       {comments.map((c) => (
-        <div
-          key={c.id}
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: 12,
-            background: '#111',
-            border: '1px solid #333',
-            borderRadius: 14,
-            padding: '9px 13px',
-          }}
-        >
-          <div style={{ minWidth: 0 }}>
-            <div style={{ fontSize: 11, opacity: 0.6 }}>
-              {getStage(c.stageId)?.name || c.stageId} · {c.nickname}
-            </div>
-            <div style={{ wordBreak: 'break-word' }}>{c.text}</div>
-          </div>
-          <button
-            onClick={() => deleteComment(c.id)}
-            style={{
-              fontFamily: "'GenSenRounded', 'Noto Sans TC', sans-serif",
-              background: '#E4433A',
-              color: '#fff',
-              border: '2px solid #000',
-              borderRadius: 999,
-              padding: '6px 12px',
-              cursor: 'pointer',
-              flexShrink: 0,
-            }}
-          >
-            刪除
-          </button>
-        </div>
+        <CommentRow key={c.id} comment={c} />
       ))}
     </div>
   )

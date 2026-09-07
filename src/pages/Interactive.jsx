@@ -44,14 +44,23 @@ export default function Interactive() {
   const [selected, setSelected] = useState([])
   const [myVote, setMyVote] = useState(null)
   const [commentText, setCommentText] = useState('')
-  const [status, setStatus] = useState('')
+  const [status, setStatus] = useState(null) // { type: 'success' | 'error', text: string }
+  const [submittingVote, setSubmittingVote] = useState(false)
+  const [submittingComment, setSubmittingComment] = useState(false)
 
   useEffect(() => subscribeConfig(setConfig), [])
+
+  // 送出成功/失敗的提示訊息幾秒後自動消失,避免一直卡在畫面上
+  useEffect(() => {
+    if (!status) return
+    const timer = setTimeout(() => setStatus(null), 3000)
+    return () => clearTimeout(timer)
+  }, [status])
 
   const stage = getStage(config.currentStageId) || STAGES[0]
 
   useEffect(() => {
-    setStatus('')
+    setStatus(null)
     if (stage.type !== 'vote') {
       setMyVote(null)
       return
@@ -85,16 +94,30 @@ export default function Interactive() {
   }
 
   const handleVoteSubmit = async () => {
-    if (selected.length === 0) return
-    await submitVote({ stageId: stage.id, participantId, nickname, options: selected })
-    setStatus(myVote ? '已更新你的投票！' : '已送出你的投票！')
+    if (selected.length === 0 || submittingVote) return
+    setSubmittingVote(true)
+    try {
+      await submitVote({ stageId: stage.id, participantId, nickname, options: selected })
+      setStatus({ type: 'success', text: myVote ? '已更新你的投票！' : '已送出你的投票！' })
+    } catch (err) {
+      setStatus({ type: 'error', text: `送出失敗,請再試一次(${err.message})` })
+    } finally {
+      setSubmittingVote(false)
+    }
   }
 
   const handleCommentSubmit = async () => {
-    if (!commentText.trim()) return
-    await postComment({ stageId: stage.id, nickname, text: commentText })
-    setCommentText('')
-    setStatus('留言送出囉！')
+    if (!commentText.trim() || submittingComment) return
+    setSubmittingComment(true)
+    try {
+      await postComment({ stageId: stage.id, nickname, text: commentText })
+      setCommentText('')
+      setStatus({ type: 'success', text: '留言送出囉！' })
+    } catch (err) {
+      setStatus({ type: 'error', text: `留言送出失敗,請再試一次(${err.message})` })
+    } finally {
+      setSubmittingComment(false)
+    }
   }
 
   return (
@@ -125,8 +148,8 @@ export default function Interactive() {
               {opt.id}. {opt.label}
             </button>
           ))}
-          <button className="stencil-btn" disabled={selected.length === 0} onClick={handleVoteSubmit}>
-            {myVote ? '更新投票' : stage.multiSelect ? '送出（可複選）' : '送出'}
+          <button className="stencil-btn" disabled={selected.length === 0 || submittingVote} onClick={handleVoteSubmit}>
+            {submittingVote ? '送出中…' : myVote ? '更新投票' : stage.multiSelect ? '送出（可複選）' : '送出'}
           </button>
         </div>
       )}
@@ -149,11 +172,13 @@ export default function Interactive() {
         />
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{ fontSize: 12, opacity: 0.6 }}>{commentText.length}/100</span>
-          <button className="stencil-btn" disabled={!commentText.trim()} onClick={handleCommentSubmit}>
-            送出留言
+          <button className="stencil-btn" disabled={!commentText.trim() || submittingComment} onClick={handleCommentSubmit}>
+            {submittingComment ? '送出中…' : '送出留言'}
           </button>
         </div>
-        {status && <p style={{ color: 'var(--spray)', fontSize: 13 }}>{status}</p>}
+        {status && (
+          <p style={{ color: status.type === 'error' ? '#ff5555' : 'var(--spray)', fontSize: 13 }}>{status.text}</p>
+        )}
       </div>
     </div>
   )
