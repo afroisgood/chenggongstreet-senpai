@@ -1,4 +1,4 @@
-export default function VoteBarChart({ stage, votes, optionFontSize = 18 }) {
+export default function VoteBarChart({ stage, votes, optionFontSize = 18, rowGap = 13, barHeight = 16 }) {
   const counts = Object.fromEntries(stage.options.map((o) => [o.id, 0]))
   votes.forEach((v) => {
     ;(v.options || []).forEach((optId) => {
@@ -9,7 +9,7 @@ export default function VoteBarChart({ stage, votes, optionFontSize = 18 }) {
   const maxCount = Math.max(1, ...Object.values(counts))
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: rowGap }}>
       <p style={{ fontFamily: "'GenSenRounded', 'Noto Sans TC', sans-serif", color: 'var(--spray)', margin: 0, fontSize: 18 }}>
         已投票人數：{totalVoters}
       </p>
@@ -26,7 +26,7 @@ export default function VoteBarChart({ stage, votes, optionFontSize = 18 }) {
                 {count}
               </span>
             </div>
-            <div style={{ background: '#1c1c1c', height: 16, borderRadius: 999, border: '1px solid var(--line)' }}>
+            <div style={{ background: '#1c1c1c', height: barHeight, borderRadius: 999, border: '1px solid var(--line)' }}>
               <div
                 style={{
                   width: `${pct}%`,
