@@ -100,7 +100,7 @@ export default function FrontStage() {
             minWidth: 0,
             minHeight: 0,
             background: 'rgba(255,255,255,0.04)',
-            border: '2px solid var(--spray)',
+            border: '1px solid var(--line)',
             borderRadius: 20,
             padding: '1rem',
           }}

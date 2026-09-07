@@ -28,7 +28,7 @@ function NicknameGate({ onSubmit }) {
         }}
       />
       <button
-        className="stencil-btn"
+        className="stencil-btn primary-action"
         disabled={!value.trim()}
         onClick={() => onSubmit(value.trim())}
       >
@@ -121,7 +121,7 @@ export default function Interactive() {
   }
 
   return (
-    <div className="spray-texture" style={{ minHeight: '100vh', background: 'var(--ink)', color: '#fff', padding: '1.5rem 1.2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <div className="spray-texture interactive-page">
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span className="tag-yellow" style={{ display: 'inline-block' }}>
           {nickname}
@@ -131,55 +131,62 @@ export default function Interactive() {
 
       {questionText && <h2 style={{ margin: 0, fontSize: '1.3rem', lineHeight: 1.5 }}>{questionText}</h2>}
       {stage.type === 'vote' && stage.multiSelect && (
-        <p style={{ margin: '-0.8rem 0 0', color: 'var(--spray)', fontSize: 13 }}>
-          （可複選，投票後仍可修改）
-        </p>
-      )}
-
-      {stage.type === 'vote' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {stage.options.map((opt) => (
-            <button
-              key={opt.id}
-              className={`stencil-btn ${selected.includes(opt.id) ? 'selected' : ''}`}
-              onClick={() => toggleOption(opt.id)}
-              style={{ textAlign: 'left' }}
-            >
-              {opt.id}. {opt.label}
-            </button>
-          ))}
-          <button className="stencil-btn" disabled={selected.length === 0 || submittingVote} onClick={handleVoteSubmit}>
-            {submittingVote ? '送出中…' : myVote ? '更新投票' : stage.multiSelect ? '送出（可複選）' : '送出'}
-          </button>
+        <div className="vote-meta" aria-live="polite">
+          <span>可複選</span>
+          <strong>已選 {selected.length} 項</strong>
         </div>
       )}
 
-      <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {stage.type === 'vote' && (
+        <section className="vote-panel" aria-label={stage.question}>
+          {stage.options.map((opt) => (
+            <button
+              key={opt.id}
+              type="button"
+              className={`vote-option ${selected.includes(opt.id) ? 'selected' : ''}`}
+              onClick={() => toggleOption(opt.id)}
+              aria-pressed={selected.includes(opt.id)}
+            >
+              <span className="vote-checkbox" aria-hidden="true">
+                {selected.includes(opt.id) ? '✓' : ''}
+              </span>
+              <span className="vote-option-label">
+                <strong>{opt.id}.</strong> {opt.label}
+              </span>
+            </button>
+          ))}
+          <button className="stencil-btn primary-action vote-submit" disabled={selected.length === 0 || submittingVote} onClick={handleVoteSubmit}>
+            {submittingVote ? '送出中…' : myVote ? '更新投票' : '送出投票'}
+          </button>
+          {myVote && <p className="saved-vote-status">✓ 已送出，仍可修改選項</p>}
+        </section>
+      )}
+
+      <section className="comment-card">
+        <div className="comment-card-heading">
+          <div>
+            <span className="section-kicker">現場留言</span>
+            <h3>想說點什麼？</h3>
+          </div>
+          <span className="comment-counter">{commentText.length}/100</span>
+        </div>
         <textarea
           value={commentText}
           onChange={(e) => setCommentText(e.target.value.slice(0, 100))}
           placeholder="在這裡留言…（最多 100 字）"
           rows={3}
-          style={{
-            background: '#111',
-            color: '#fff',
-            border: '3px solid var(--spray)',
-            borderRadius: 14,
-            padding: '10px 12px',
-            fontSize: 15,
-            resize: 'none',
-          }}
+          className="comment-input"
         />
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontSize: 12, opacity: 0.6 }}>{commentText.length}/100</span>
-          <button className="stencil-btn" disabled={!commentText.trim() || submittingComment} onClick={handleCommentSubmit}>
+        <div className="comment-actions">
+          <span>留言會顯示在現場大螢幕</span>
+          <button className="stencil-btn primary-action" disabled={!commentText.trim() || submittingComment} onClick={handleCommentSubmit}>
             {submittingComment ? '送出中…' : '送出留言'}
           </button>
         </div>
         {status && (
           <p style={{ color: status.type === 'error' ? '#ff5555' : 'var(--spray)', fontSize: 13 }}>{status.text}</p>
         )}
-      </div>
+      </section>
     </div>
   )
 }

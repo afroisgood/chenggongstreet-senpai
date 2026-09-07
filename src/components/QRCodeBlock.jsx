@@ -12,8 +12,8 @@ export default function QRCodeBlock({ size = 120 }) {
         alignItems: 'center',
         gap: 6,
         borderRadius: 18,
-        border: '3px solid #000',
-        boxShadow: '4px 4px 0 var(--spray)',
+        border: '1px solid #d8d8d8',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.28)',
       }}
     >
       <QRCodeSVG value={joinUrl} size={size} bgColor="#ffffff" fgColor="#000000" />

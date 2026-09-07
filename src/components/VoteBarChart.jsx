@@ -26,13 +26,13 @@ export default function VoteBarChart({ stage, votes, optionFontSize = 18 }) {
                 {count}
               </span>
             </div>
-            <div style={{ background: '#1c1c1c', height: 16, borderRadius: 999, border: '2px solid rgba(255,255,255,0.12)' }}>
+            <div style={{ background: '#1c1c1c', height: 16, borderRadius: 999, border: '1px solid var(--line)' }}>
               <div
                 style={{
                   width: `${pct}%`,
                   height: '100%',
                   borderRadius: 999,
-                  background: 'linear-gradient(180deg, #FFF3A3 0%, var(--spray) 55%, #E6CE00 100%)',
+                  background: 'var(--spray)',
                   position: 'relative',
                   transition: 'width 0.4s ease',
                 }}
