@@ -52,13 +52,6 @@ export default function FrontStage() {
 
   const questionText = stage.question
 
-  // 選項越多，字級和間距就跟著縮小，避免長列表把下方的 QR code 擠出畫面外
-  const optionCount = stage.type === 'vote' ? stage.options.length : 0
-  const isCompact = optionCount >= 6
-  const voteOptionFontSize = isCompact ? 'clamp(1rem, 1.8vw, 1.4rem)' : 'clamp(1.2rem, 2.4vw, 2rem)'
-  const voteRowGap = isCompact ? 8 : 13
-  const voteBarHeight = isCompact ? 12 : 16
-
   return (
     <div className="spray-texture" style={{ height: '100vh', overflow: 'hidden', background: 'var(--ink)', display: 'flex', flexDirection: 'column' }}>
       <header style={{ padding: '1.5rem 1rem 1rem', borderBottom: '4px solid var(--spray)' }}>
@@ -83,29 +76,29 @@ export default function FrontStage() {
                 ★ 目前階段
               </div>
               <h2 style={{ margin: 0, fontSize: 'clamp(1.2rem, 2.4vw, 2rem)', color: '#fff', flexShrink: 0 }}>{questionText}</h2>
-              <div style={{ flex: 1, minHeight: 0, overflowY: 'auto' }}>
-                <VoteBarChart
-                  stage={stage}
-                  votes={votes}
-                  optionFontSize={voteOptionFontSize}
-                  rowGap={voteRowGap}
-                  barHeight={voteBarHeight}
-                />
+              <div style={{ flex: 1, minHeight: 0 }}>
+                <VoteBarChart stage={stage} votes={votes} autoFit />
               </div>
             </div>
           ) : stage.type === 'staticCloud' ? (
-            <div style={{ flex: 1, minHeight: 0, minWidth: 0, overflow: 'hidden' }}>
-              <WordCloud items={stage.items.map((text, i) => ({ id: String(i), text }))} randomize={false} />
-            </div>
+            <>
+              <div style={{ flex: 1, minHeight: 0, minWidth: 0, overflow: 'hidden' }}>
+                <WordCloud items={stage.items.map((text, i) => ({ id: String(i), text }))} randomize={false} />
+              </div>
+              <div style={{ marginTop: 'auto' }}>
+                <QRCodeBlock />
+              </div>
+            </>
           ) : (
-            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-              <BubbleTitle text={questionText} size="clamp(2rem, 6vw, 4.5rem)" />
-            </div>
+            <>
+              <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+                <BubbleTitle text={questionText} size="clamp(2rem, 6vw, 4.5rem)" />
+              </div>
+              <div style={{ marginTop: 'auto' }}>
+                <QRCodeBlock />
+              </div>
+            </>
           )}
-
-          <div style={{ marginTop: 'auto' }}>
-            <QRCodeBlock />
-          </div>
         </section>
 
         <section
