@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useParticipant } from '../context/ParticipantContext'
 import { getStage, STAGES } from '../data/stages'
-import { subscribeConfig, postComment, submitVote, subscribeMyVote } from '../lib/data'
+import { subscribeConfig, postComment, submitVote, subscribeMyVote, subscribeAllComments } from '../lib/data'
+import CommentWall from '../components/CommentWall'
 
 function NicknameGate({ onSubmit }) {
   const [value, setValue] = useState('')
@@ -28,7 +29,7 @@ function NicknameGate({ onSubmit }) {
         }}
       />
       <button
-        className="stencil-btn"
+        className="stencil-btn primary-action"
         disabled={!value.trim()}
         onClick={() => onSubmit(value.trim())}
       >
@@ -44,14 +45,29 @@ export default function Interactive() {
   const [selected, setSelected] = useState([])
   const [myVote, setMyVote] = useState(null)
   const [commentText, setCommentText] = useState('')
-  const [status, setStatus] = useState('')
+  const [status, setStatus] = useState(null) // { type: 'success' | 'error', text: string }
+  const [submittingVote, setSubmittingVote] = useState(false)
+  const [submittingComment, setSubmittingComment] = useState(false)
+  const [comments, setComments] = useState([])
 
   useEffect(() => subscribeConfig(setConfig), [])
+  // 跟 FrontStage 用同一面留言牆的資料，文字雲階段的留言是專屬回答，不混進來
+  useEffect(
+    () => subscribeAllComments((all) => setComments(all.filter((c) => c.stageId !== 'wordcloud'))),
+    [],
+  )
+
+  // 送出成功/失敗的提示訊息幾秒後自動消失,避免一直卡在畫面上
+  useEffect(() => {
+    if (!status) return
+    const timer = setTimeout(() => setStatus(null), 3000)
+    return () => clearTimeout(timer)
+  }, [status])
 
   const stage = getStage(config.currentStageId) || STAGES[0]
 
   useEffect(() => {
-    setStatus('')
+    setStatus(null)
     if (stage.type !== 'vote') {
       setMyVote(null)
       return
@@ -85,20 +101,34 @@ export default function Interactive() {
   }
 
   const handleVoteSubmit = async () => {
-    if (selected.length === 0) return
-    await submitVote({ stageId: stage.id, participantId, nickname, options: selected })
-    setStatus(myVote ? '已更新你的投票！' : '已送出你的投票！')
+    if (selected.length === 0 || submittingVote) return
+    setSubmittingVote(true)
+    try {
+      await submitVote({ stageId: stage.id, participantId, nickname, options: selected })
+      setStatus({ type: 'success', text: myVote ? '已更新你的投票！' : '已送出你的投票！' })
+    } catch (err) {
+      setStatus({ type: 'error', text: `送出失敗,請再試一次(${err.message})` })
+    } finally {
+      setSubmittingVote(false)
+    }
   }
 
   const handleCommentSubmit = async () => {
-    if (!commentText.trim()) return
-    await postComment({ stageId: stage.id, nickname, text: commentText })
-    setCommentText('')
-    setStatus('留言送出囉！')
+    if (!commentText.trim() || submittingComment) return
+    setSubmittingComment(true)
+    try {
+      await postComment({ stageId: stage.id, nickname, text: commentText })
+      setCommentText('')
+      setStatus({ type: 'success', text: '留言送出囉！' })
+    } catch (err) {
+      setStatus({ type: 'error', text: `留言送出失敗,請再試一次(${err.message})` })
+    } finally {
+      setSubmittingComment(false)
+    }
   }
 
   return (
-    <div className="spray-texture" style={{ minHeight: '100vh', background: 'var(--ink)', color: '#fff', padding: '1.5rem 1.2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <div className="spray-texture interactive-page">
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span className="tag-yellow" style={{ display: 'inline-block' }}>
           {nickname}
@@ -108,53 +138,65 @@ export default function Interactive() {
 
       {questionText && <h2 style={{ margin: 0, fontSize: '1.3rem', lineHeight: 1.5 }}>{questionText}</h2>}
       {stage.type === 'vote' && stage.multiSelect && (
-        <p style={{ margin: '-0.8rem 0 0', color: 'var(--spray)', fontSize: 13 }}>
-          （可複選，投票後仍可修改）
-        </p>
-      )}
-
-      {stage.type === 'vote' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {stage.options.map((opt) => (
-            <button
-              key={opt.id}
-              className={`stencil-btn ${selected.includes(opt.id) ? 'selected' : ''}`}
-              onClick={() => toggleOption(opt.id)}
-              style={{ textAlign: 'left' }}
-            >
-              {opt.id}. {opt.label}
-            </button>
-          ))}
-          <button className="stencil-btn" disabled={selected.length === 0} onClick={handleVoteSubmit}>
-            {myVote ? '更新投票' : stage.multiSelect ? '送出（可複選）' : '送出'}
-          </button>
+        <div className="vote-meta" aria-live="polite">
+          <span>可複選</span>
+          <strong>已選 {selected.length} 項</strong>
         </div>
       )}
 
-      <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {stage.type === 'vote' && (
+        <section className="vote-panel" aria-label={stage.question}>
+          {stage.options.map((opt) => (
+            <button
+              key={opt.id}
+              type="button"
+              className={`vote-option ${selected.includes(opt.id) ? 'selected' : ''}`}
+              onClick={() => toggleOption(opt.id)}
+              aria-pressed={selected.includes(opt.id)}
+            >
+              <span className="vote-checkbox" aria-hidden="true">
+                {selected.includes(opt.id) ? '✓' : ''}
+              </span>
+              <span className="vote-option-label">
+                <strong>{opt.id}.</strong> {opt.label}
+              </span>
+            </button>
+          ))}
+          <button className="stencil-btn primary-action vote-submit" disabled={selected.length === 0 || submittingVote} onClick={handleVoteSubmit}>
+            {submittingVote ? '送出中…' : myVote ? '更新投票' : '送出投票'}
+          </button>
+          {myVote && <p className="saved-vote-status">✓ 已送出，仍可修改選項</p>}
+        </section>
+      )}
+
+      <section className="comment-card">
+        <div className="comment-card-heading">
+          <div>
+            <span className="section-kicker">現場留言</span>
+            <h3>想說點什麼？</h3>
+          </div>
+          <span className="comment-counter">{commentText.length}/100</span>
+        </div>
         <textarea
           value={commentText}
           onChange={(e) => setCommentText(e.target.value.slice(0, 100))}
           placeholder="在這裡留言…（最多 100 字）"
           rows={3}
-          style={{
-            background: '#111',
-            color: '#fff',
-            border: '3px solid var(--spray)',
-            borderRadius: 14,
-            padding: '10px 12px',
-            fontSize: 15,
-            resize: 'none',
-          }}
+          className="comment-input"
         />
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontSize: 12, opacity: 0.6 }}>{commentText.length}/100</span>
-          <button className="stencil-btn" disabled={!commentText.trim()} onClick={handleCommentSubmit}>
-            送出留言
+        <div className="comment-actions">
+          <span>留言會顯示在現場大螢幕</span>
+          <button className="stencil-btn primary-action" disabled={!commentText.trim() || submittingComment} onClick={handleCommentSubmit}>
+            {submittingComment ? '送出中…' : '送出留言'}
           </button>
         </div>
-        {status && <p style={{ color: 'var(--spray)', fontSize: 13 }}>{status}</p>}
-      </div>
+        {status && (
+          <p style={{ color: status.type === 'error' ? '#ff5555' : 'var(--spray)', fontSize: 13 }}>{status.text}</p>
+        )}
+        <div style={{ marginTop: 16, height: 320, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <CommentWall comments={comments} />
+        </div>
+      </section>
     </div>
   )
 }
