@@ -71,26 +71,34 @@ export default function FrontStage() {
       >
         <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem', minWidth: 0, minHeight: 0, overflow: 'hidden' }}>
           {stage.type === 'vote' ? (
-            <>
-              <div className="tag-yellow" style={{ display: 'inline-block', alignSelf: 'flex-start' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', flex: 1, minHeight: 0 }}>
+              <div className="tag-yellow" style={{ display: 'inline-block', alignSelf: 'flex-start', flexShrink: 0 }}>
                 ★ 目前階段
               </div>
-              <h2 style={{ margin: 0, fontSize: 'clamp(1.2rem, 2.4vw, 2rem)', color: '#fff' }}>{questionText}</h2>
-              <VoteBarChart stage={stage} votes={votes} optionFontSize="clamp(1.2rem, 2.4vw, 2rem)" />
-            </>
+              <h2 style={{ margin: 0, fontSize: 'clamp(1.2rem, 2.4vw, 2rem)', color: '#fff', flexShrink: 0 }}>{questionText}</h2>
+              <div style={{ flex: 1, minHeight: 0 }}>
+                <VoteBarChart stage={stage} votes={votes} autoFit />
+              </div>
+            </div>
           ) : stage.type === 'staticCloud' ? (
-            <div style={{ flex: 1, minHeight: 0, minWidth: 0, overflow: 'hidden' }}>
-              <WordCloud items={stage.items.map((text, i) => ({ id: String(i), text }))} randomize={false} />
-            </div>
+            <>
+              <div style={{ flex: 1, minHeight: 0, minWidth: 0, overflow: 'hidden' }}>
+                <WordCloud items={stage.items.map((text, i) => ({ id: String(i), text }))} randomize={false} />
+              </div>
+              <div style={{ marginTop: 'auto' }}>
+                <QRCodeBlock />
+              </div>
+            </>
           ) : (
-            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-              <BubbleTitle text={questionText} size="clamp(2rem, 6vw, 4.5rem)" />
-            </div>
+            <>
+              <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+                <BubbleTitle text={questionText} size="clamp(2rem, 6vw, 4.5rem)" />
+              </div>
+              <div style={{ marginTop: 'auto' }}>
+                <QRCodeBlock />
+              </div>
+            </>
           )}
-
-          <div style={{ marginTop: 'auto' }}>
-            <QRCodeBlock />
-          </div>
         </section>
 
         <section
@@ -100,7 +108,7 @@ export default function FrontStage() {
             minWidth: 0,
             minHeight: 0,
             background: 'rgba(255,255,255,0.04)',
-            border: '2px solid var(--spray)',
+            border: '1px solid var(--line)',
             borderRadius: 20,
             padding: '1rem',
           }}
